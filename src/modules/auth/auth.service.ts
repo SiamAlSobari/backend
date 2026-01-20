@@ -7,11 +7,7 @@ export class AuthService {
     }
         // Dummy implementation for registration
 
-    public async login(email: string, password: string): Promise<string> {
-        // Dummy implementation for login
-        if (email === "iZb7w@example.com" && password === "password") {
-            return await generateJWT({ id: "1", email }, JWT_SECRET);
-        }
-        throw new Error("Invalid credentials");
+    public async login(email: string, password: string) {
+
     }
 }
