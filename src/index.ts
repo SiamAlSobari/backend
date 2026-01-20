@@ -1,15 +1,15 @@
-import openapi from "@elysiajs/openapi";
-import { Elysia } from "elysia";
+import { serve } from '@hono/node-server'
+import { Hono } from 'hono'
 
-const app = new Elysia().get("/", () => "Hello Elysia").use(openapi({
-  documentation:{
-    info: {
-      title: "KasirApp API",
-      version: "1.0.0"
-    }
-  }
-})).listen(3000);
+const app = new Hono()
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+app.get('/', (c) => {
+  return c.text('Hello Hono!')
+})
+
+serve({
+  fetch: app.fetch,
+  port: 3000
+}, (info) => {
+  console.log(`Server is running on http://localhost:${info.port}`)
+})
