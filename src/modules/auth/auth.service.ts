@@ -1,17 +1,42 @@
 import { JWT_SECRET } from "../../common/utils/env.js";
+import { hashPassword, verifyPassword } from "../../common/utils/hash.js";
 import { generateJWT } from "../../common/utils/jwt.js";
+import type { UserRepository } from "../user/user.repository.js";
 
 export class AuthService {
-    public async register(email: string, password: string) {
-        return { id: "1", email };
-    }
-        // Dummy implementation for registration
+    constructor(
+        private userRepo: UserRepository
+    ) { }
 
-    public async login(email: string, password: string): Promise<string> {
-        // Dummy implementation for login
-        if (email === "iZb7w@example.com" && password === "password") {
-            return await generateJWT({ id: "1", email }, JWT_SECRET);
+    public async register(email: string, password: string, name: string) {
+        const existingUser = await this.userRepo.findByEmail(email);
+        if (existingUser) {
+            throw new Error("User already exists");
         }
-        throw new Error("Invalid credentials");
+
+        // Hash password
+        const hashedPassword = await hashPassword(password);
+
+        const newUser = await this.userRepo.createUser(email, hashedPassword, name);
+        return newUser;
+    }
+
+    public async login(email: string, password: string) {
+        const user = await this.userRepo.findByEmail(email);
+        if (!user) {
+            throw new Error("Invalid email or password");
+        }
+
+        // Verifikasi password
+        const isPasswordValid = await verifyPassword(user.password, password);
+        if (!isPasswordValid) {
+            throw new Error("Invalid email or password");
+        }
+
+        // Generate JWT
+        const payload = { id: user.id, email: user.email };
+        const token = await generateJWT(payload, JWT_SECRET);
+
+        return { token };
     }
 }
