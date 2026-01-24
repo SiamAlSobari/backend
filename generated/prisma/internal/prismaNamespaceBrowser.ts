@@ -51,7 +51,11 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Profile: 'Profile',
+  Product: 'Product',
+  CategoryProduct: 'CategoryProduct',
+  Category: 'Category'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -82,6 +86,45 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const ProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+
+
+export const ProductScalarFieldEnum = {
+  id: 'id'
+} as const
+
+export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const CategoryProductScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  productId: 'productId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryProductScalarFieldEnum = (typeof CategoryProductScalarFieldEnum)[keyof typeof CategoryProductScalarFieldEnum]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -99,10 +142,44 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const UserOrderByRelevanceFieldEnum = {
+  id: 'id',
   email: 'email',
   password: 'password',
   name: 'name'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+
+
+export const ProfileOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name'
+} as const
+
+export type ProfileOrderByRelevanceFieldEnum = (typeof ProfileOrderByRelevanceFieldEnum)[keyof typeof ProfileOrderByRelevanceFieldEnum]
+
+
+export const ProductOrderByRelevanceFieldEnum = {
+  id: 'id'
+} as const
+
+export type ProductOrderByRelevanceFieldEnum = (typeof ProductOrderByRelevanceFieldEnum)[keyof typeof ProductOrderByRelevanceFieldEnum]
+
+
+export const CategoryProductOrderByRelevanceFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  productId: 'productId'
+} as const
+
+export type CategoryProductOrderByRelevanceFieldEnum = (typeof CategoryProductOrderByRelevanceFieldEnum)[keyof typeof CategoryProductOrderByRelevanceFieldEnum]
+
+
+export const CategoryOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type CategoryOrderByRelevanceFieldEnum = (typeof CategoryOrderByRelevanceFieldEnum)[keyof typeof CategoryOrderByRelevanceFieldEnum]
 
