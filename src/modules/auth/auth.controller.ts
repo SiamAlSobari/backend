@@ -15,7 +15,7 @@ export const authController = new Hono()
         zValidator("json", registerValidation),
         async (c) => {
             const { name, email, password } = c.req.valid("json");
-            const result = await authService.register(name, email, password);
+            const result = await authService.register(email, password, name);
             return ApiResponse(c, 200, "Berhasil Register", result);
         })
     .post(
@@ -23,6 +23,7 @@ export const authController = new Hono()
         zValidator("json", loginValidation),
         async (c) => {
             const { email, password } = c.req.valid("json");
+            console.log({ email, password });
             const result = await authService.login(email, password);
             return ApiResponse(c, 200, "Berhasil Login", result);
         })
@@ -30,6 +31,10 @@ export const authController = new Hono()
         authMiddleware,
         async (c) => {
             const user = c.get("user");
-            return ApiResponse(c, 200, "Sesi valid", user);
+            return ApiResponse(c, 200, "Sesi valid", {
+                name: user.name,
+                email: user.email,
+                userId: user.id
+            });
         }
     )

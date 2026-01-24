@@ -1,3 +1,4 @@
+import { HTTPException } from "hono/http-exception";
 import { JWT_SECRET } from "../../common/utils/env.js";
 import { hashPassword, verifyPassword } from "../../common/utils/hash.js";
 import { generateJWT } from "../../common/utils/jwt.js";
@@ -24,17 +25,17 @@ export class AuthService {
     public async login(email: string, password: string) {
         const user = await this.userRepo.findByEmail(email);
         if (!user) {
-            throw new Error("Invalid email or password");
+            throw new HTTPException(401, { message: "Invalid email or password" });
         }
 
         // Verifikasi password
         const isPasswordValid = await verifyPassword(user.password, password);
         if (!isPasswordValid) {
-            throw new Error("Invalid email or password");
+            throw new HTTPException(401, { message: "Invalid email or password" });
         }
 
         // Generate JWT
-        const payload = { id: user.id, email: user.email };
+        const payload = { id: user.id, email: user.email, name: user.name };
         const token = await generateJWT(payload, JWT_SECRET);
 
         return { token };
